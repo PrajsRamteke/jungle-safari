@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jungle Safari Feedback Form</title>
+  <style>
+    :root {
+      --green-dark: #1b4332;
+      --green: #2d6a4f;
+      --green-mid: #40916c;
+      --green-light: #74c69d;
+      --green-pale: #d8f3dc;
+      --cream: #fefae0;
+      --amber: #e9c46a;
+      --red: #e63946;
+      --text: #22333b;
+      --radius: 14px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(160deg, #1b4332 0%, #2d6a4f 45%, #40916c 100%);
+      min-height: 100vh;
+      padding: 24px 12px;
+      color: var(--text);
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    /* ---------- Icons ---------- */
+    .icon {
+      width: 1.15em;
+      height: 1.15em;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vertical-align: -0.2em;
+      flex-shrink: 0;
+    }
+
+    .option .icon {
+      stroke: var(--green-mid);
+    }
+
+    .option:has(input:checked) .icon {
+      stroke: var(--green-dark);
+    }
+
+    .icon-heart {
+      stroke: var(--red);
+      fill: var(--red);
+    }
+
+    .rating-table th .icon {
+      width: .85em;
+      height: .85em;
+      stroke: #c99f3f;
+      fill: var(--amber);
+      margin-right: 2px;
+    }
+
+    /* ---------- Header ---------- */
+    .header-card {
+      background: #fff;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .25);
+      margin-bottom: 18px;
+      border-top: 8px solid var(--amber);
+    }
+
+    .header-card .header-img {
+      width: 100%;
+      display: block;
+      height: auto;
+    }
+
+    .header-card .header-text {
+      padding: 22px 26px;
+    }
+
+    .header-card h1 {
+      color: var(--green-dark);
+      font-size: 1.55rem;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+
+    .header-card p {
+      color: #555;
+      font-size: .95rem;
+      line-height: 1.55;
+    }
+
+    .required-note {
+      margin-top: 10px;
+      font-size: .8rem;
+      color: var(--red);
+    }
+
+    /* ---------- Sections ---------- */
+    .card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, .15);
+      padding: 22px 26px;
+      margin-bottom: 16px;
+      border-left: 5px solid var(--green-mid);
+      transition: box-shadow .2s ease;
+    }
+
+    .card:focus-within {
+      box-shadow: 0 6px 20px rgba(27, 67, 50, .3);
+      border-left-color: var(--amber);
+    }
+
+    .card h2 {
+      font-size: 1.05rem;
+      color: var(--green-dark);
+      margin-bottom: 4px;
+    }
+
+    .card .sub {
+      font-size: .85rem;
+      color: #777;
+      margin-bottom: 14px;
+    }
+
+    label.field-label {
+      display: block;
+      font-weight: 600;
+      font-size: .92rem;
+      color: var(--green-dark);
+      margin-bottom: 6px;
+    }
+
+    .req {
+      color: var(--red);
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="date"],
+    input[type="time"],
+    textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #cfd8d3;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: inherit;
+      background: #fbfdfb;
+      transition: border-color .2s, box-shadow .2s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--green-mid);
+      box-shadow: 0 0 0 3px rgba(64, 145, 108, .18);
+      background: #fff;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ---------- Radio options ---------- */
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 14px;
+      border: 1.5px solid #dfe7e2;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: .95rem;
+      transition: all .15s ease;
+      background: #fbfdfb;
+    }
+
+    .option:hover {
+      border-color: var(--green-light);
+      background: var(--green-pale);
+    }
+
+    .option input {
+      accent-color: var(--green);
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .option:has(input:checked) {
+      border-color: var(--green);
+      background: var(--green-pale);
+      font-weight: 600;
+      color: var(--green-dark);
+    }
+
+    /* ---------- Rating grid ---------- */
+    .rating-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .rating-table th {
+      font-size: .78rem;
+      color: var(--green-dark);
+      padding: 8px 4px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .rating-table th:first-child {
+      text-align: left;
+      width: 42%;
+    }
+
+    .rating-table td {
+      text-align: center;
+      padding: 10px 4px;
+      border-top: 1px solid #eef2ef;
+    }
+
+    .rating-table td:first-child {
+      text-align: left;
+      font-size: .88rem;
+      font-weight: 500;
+      color: var(--text);
+      padding-right: 8px;
+    }
+
+    .rating-table input[type="radio"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--green);
+      cursor: pointer;
+    }
+
+    /* Mobile: stacked rating rows */
+    .rating-mobile {
+      display: none;
+    }
+
+    .rating-mobile .rating-item {
+      margin-bottom: 16px;
+    }
+
+    .rating-mobile .rating-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .rating-mobile .rating-name {
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .rating-pills {
+      display: flex;
+      gap: 8px;
+    }
+
+    .rating-pills label {
+      flex: 1;
+      text-align: center;
+      padding: 10px 0;
+      border: 1.5px solid #dfe7e2;
+      border-radius: 10px;
+      font-size: .95rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: #fbfdfb;
+      transition: all .15s ease;
+      user-select: none;
+    }
+
+    .rating-pills input {
+      display: none;
+    }
+
+    .rating-pills label:has(input:checked) {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+
+    .scale-hint {
+      font-size: .78rem;
+      color: #888;
+      margin-bottom: 12px;
+    }
+
+    /* ---------- Errors ---------- */
+    .error-msg {
+      display: none;
+      color: var(--red);
+      font-size: .8rem;
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    .invalid .error-msg {
+      display: block;
+    }
+
+    .invalid input[type="text"],
+    .invalid input[type="tel"],
+    .invalid input[type="date"],
+    .invalid input[type="time"],
+    .invalid textarea {
+      border-color: var(--red);
+    }
+
+    .invalid .option,
+    .invalid .rating-pills label {
+      border-color: #f4b8bd;
+    }
+
+    /* ---------- Submit ---------- */
+    .submit-card {
+      text-align: center;
+      background: transparent;
+      box-shadow: none;
+      border: none;
+      padding: 8px 0 0;
+    }
+
+    button[type="submit"] {
+      background: linear-gradient(135deg, var(--amber), #d4a94a);
+      color: var(--green-dark);
+      border: none;
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 15px 52px;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, .28);
+      transition: transform .15s ease, box-shadow .15s ease;
+      width: 100%;
+      max-width: 340px;
+    }
+
+    button[type="submit"]:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 9px 24px rgba(0, 0, 0, .34);
+    }
+
+    button[type="submit"]:disabled {
+      opacity: .65;
+      cursor: not-allowed;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2.5px solid rgba(27, 67, 50, .3);
+      border-top-color: var(--green-dark);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      vertical-align: -3px;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ---------- Toast / result ---------- */
+    #formAlert {
+      display: none;
+      margin: 0 0 16px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      font-size: .92rem;
+      font-weight: 600;
+    }
+
+    #formAlert.error {
+      display: block;
+      background: #fdecee;
+      color: var(--red);
+      border: 1px solid #f4b8bd;
+    }
+
+    /* ---------- Success screen ---------- */
+    #successCard {
+      display: none;
+      text-align: center;
+      padding: 48px 26px;
+      border-left-color: var(--green);
+    }
+
+    #successCard .big {
+      font-size: 3.2rem;
+      margin-bottom: 14px;
+    }
+
+    #successCard h2 {
+      font-size: 1.35rem;
+      margin-bottom: 10px;
+    }
+
+    #successCard p {
+      color: #666;
+      line-height: 1.6;
+    }
+
+    #successCard button {
+      margin-top: 22px;
+      background: var(--green);
+      color: #fff;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-size: .95rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--green-pale);
+      font-size: .85rem;
+      padding: 22px 10px 6px;
+      line-height: 1.6;
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 600px) {
+      body {
+        padding: 12px 8px;
+      }
+
+      .card,
+      .header-card .header-text {
+        padding: 18px 16px;
+      }
+
+      .header-card h1 {
+        font-size: 1.25rem;
+      }
+
+      .row-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .rating-desktop {
+        display: none;
+      }
+
+      .rating-mobile {
+        display: block;
+      }
+
+      button[type="submit"] {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SVG icon sprite (Feather/Lucide-style line icons) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="i-user" viewBox="0 0 24 24">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
+    </symbol>
+    <symbol id="i-star" viewBox="0 0 24 24">
+      <polygon
+        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </symbol>
+    <symbol id="i-laugh" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M18 13a6 6 0 0 1-6 5 6 6 0 0 1-6-5h12Z" />
+      <line x1="9" y1="9" x2="9.01" y2="9" />
+      <line x1="15" y1="9" x2="15.01" y2="9" />
+    </symbol>
+    <symbol id="i-smile" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+      <line x1="9" y1="9" x2="9.01" y2="9" />
+      <line x1="15" y1="9" x2="15.01" y2="9" />
+    </symbol>
+    <symbol id="i-meh" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="8" y1="15" x2="16" y2="15" />
+      <line x1="9" y1="9" x2="9.01" y2="9" />
+      <line x1="15" y1="9" x2="15.01" y2="9" />
+    </symbol>
+    <symbol id="i-frown" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M16 16s-1.5-2-4-2-4 2-4 2" />
+      <line x1="9" y1="9" x2="9.01" y2="9" />
+      <line x1="15" y1="9" x2="15.01" y2="9" />
+    </symbol>
+    <symbol id="i-binoculars" viewBox="0 0 24 24">
+      <path d="M10 10h4" />
+      <path d="M19 7V4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v3" />
+      <path d="M20 21a2 2 0 0 0 2-2v-3.851c0-1.39-2-2.962-2-4.829V8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1z" />
+      <path d="M22 16h-3.35" />
+      <path d="M4 21a2 2 0 0 1-2-2v-3.851c0-1.39 2-2.962 2-4.829V8a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1z" />
+      <path d="M9 7V4a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v3" />
+      <path d="M2 16h3.35" />
+    </symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" />
+      <circle cx="12" cy="12" r="3" />
+    </symbol>
+    <symbol id="i-eye-off" viewBox="0 0 24 24">
+      <path
+        d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+      <line x1="1" y1="1" x2="23" y2="23" />
+    </symbol>
+    <symbol id="i-thumbs-up" viewBox="0 0 24 24">
+      <path
+        d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" />
+    </symbol>
+    <symbol id="i-help" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+      <line x1="12" y1="17" x2="12.01" y2="17" />
+    </symbol>
+    <symbol id="i-thumbs-down" viewBox="0 0 24 24">
+      <path
+        d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17" />
+    </symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24">
+      <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
+      <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
+    </symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24">
+      <path
+        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+    </symbol>
+    <symbol id="i-check-circle" viewBox="0 0 24 24">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+      <polyline points="22 4 12 14.01 9 11.01" />
+    </symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24">
+      <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+      <line x1="12" y1="9" x2="12" y2="13" />
+      <line x1="12" y1="17" x2="12.01" y2="17" />
+    </symbol>
+    <symbol id="i-x-circle" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="15" y1="9" x2="9" y2="15" />
+      <line x1="9" y1="9" x2="15" y2="15" />
+    </symbol>
+  </svg>
+
+  <div class="container">
+
+    <!-- ================= HEADER ================= -->
+    <div class="header-card">
+      <img class="header-img" src="header.png" alt="Jungle Safari Feedback Form" onerror="this.style.display='none'" />
+      <div class="header-text">
+        <p>Thank you for joining us! We would love to hear about your experience.
+          Please take a moment to fill out this short feedback form.</p>
+        <p class="required-note">* Indicates required question</p>
+      </div>
+    </div>
+
+    <!-- ================= SUCCESS ================= -->
+    <div class="card" id="successCard">
+      <div class="big"><svg class="icon" style="width:64px;height:64px;stroke:var(--green)" aria-hidden="true">
+          <use href="#i-check-circle" />
+        </svg></div>
+      <h2>Thank You for Your Feedback!</h2>
+      <p><svg class="icon icon-heart" aria-hidden="true">
+          <use href="#i-heart" />
+        </svg> Thank you for choosing our Jungle Safari!<br>
+        We hope you had a wonderful experience and wish you a great day! <svg class="icon icon-heart"
+          aria-hidden="true">
+          <use href="#i-heart" />
+        </svg></p>
+      <button type="button" onclick="resetForm()">Submit Another Response</button>
+    </div>
+
+    <!-- ================= FORM ================= -->
+    <form id="safariForm" novalidate>
+
+      <div id="formAlert"></div>
+
+      <!-- Visitor details -->
+      <div class="card">
+        <h2><svg class="icon" aria-hidden="true">
+            <use href="#i-user" />
+          </svg> Visitor Details</h2>
+        <p class="sub">Tell us a little about yourself and your safari trip.</p>
+
+        <div class="field">
+          <label class="field-label" for="visitorName">Visitor Name <span
+              style="color:#999;font-weight:400">(Optional)</span></label>
+          <input type="text" id="visitorName" name="visitorName" placeholder="Enter your full name" maxlength="100"
+            autocomplete="name" />
+        </div>
+
+        <div class="field" data-field="address">
+          <label class="field-label" for="address">Address <span class="req">*</span></label>
+          <textarea id="address" name="address" rows="2" placeholder="Enter your address" maxlength="300"></textarea>
+          <div class="error-msg">Please enter your address.</div>
+        </div>
+
+        <div class="field" data-field="phone">
+          <label class="field-label" for="phone">Phone / Mobile Number <span class="req">*</span></label>
+          <input type="tel" id="phone" name="phone" placeholder="e.g. 9876543210" inputmode="numeric" maxlength="15"
+            autocomplete="tel" />
+          <div class="error-msg">Please enter a valid 10-digit mobile number.</div>
+        </div>
+
+        <div class="field" data-field="safariDateTime">
+          <label class="field-label">Safari Date &amp; Time <span class="req">*</span></label>
+          <div class="row-2">
+            <input type="date" id="safariDate" name="safariDate" />
+            <input type="time" id="safariTime" name="safariTime" />
+          </div>
+          <div class="error-msg">Please select both the safari date and time (date cannot be in the future).</div>
+        </div>
+
+        <div class="field" data-field="vehicleGuide">
+          <label class="field-label" for="vehicleGuide">Vehicle Number / Guide's Name <span class="req">*</span></label>
+          <input type="text" id="vehicleGuide" name="vehicleGuide" placeholder="e.g. MH-31-AB-1234 / Ramesh"
+            maxlength="100" />
+          <div class="error-msg">Please enter the vehicle number or guide's name.</div>
+        </div>
+      </div>
+
+      <!-- Q1 Overall experience -->
+      <div class="card" data-field="overallExperience">
+        <h2>1. Overall Safari Experience <span class="req">*</span></h2>
+        <p class="sub">How would you rate your overall jungle safari experience?</p>
+        <div class="options">
+          <label class="option"><input type="radio" name="overallExperience" value="Excellent" /><svg class="icon"
+              aria-hidden="true">
+              <use href="#i-laugh" />
+            </svg> Excellent</label>
+          <label class="option"><input type="radio" name="overallExperience" value="Good" /><svg class="icon"
+              aria-hidden="true">
+              <use href="#i-smile" />
+            </svg> Good</label>
+          <label class="option"><input type="radio" name="overallExperience" value="Average" /><svg class="icon"
+              aria-hidden="true">
+              <use href="#i-meh" />
+            </svg> Average</label>
+          <label class="option"><input type="radio" name="overallExperience" value="Poor" /><svg class="icon"
+              aria-hidden="true">
+              <use href="#i-frown" />
+            </svg> Poor</label>
+        </div>
+        <div class="error-msg">Please select an option.</div>
+      </div>
+
+      <!-- Q2 Rate our services -->
+      <div class="card" data-field="ratings">
+        <h2>2. Rate Our Services <span class="req">*</span></h2>
+        <p class="sub">Please rate the following services.</p>
+        <p class="scale-hint">1 = Very Poor &nbsp;·&nbsp; 5 = Excellent</p>
+
+        <!-- Desktop table -->
+        <table class="rating-table rating-desktop">
+          <thead>
+            <tr>
+              <th>Service</th>
+              <th><svg class="icon" aria-hidden="true">
+                  <use href="#i-star" />
+                </svg>1</th>
+              <th><svg class="icon" aria-hidden="true">
+                  <use href="#i-star" />
+                </svg>2</th>
+              <th><svg class="icon" aria-hidden="true">
+                  <use href="#i-star" />
+                </svg>3</th>
+              <th><svg class="icon" aria-hidden="true">
+                  <use href="#i-star" />
+                </svg>4</th>
+              <th><svg class="icon" aria-hidden="true">
+                  <use href="#i-star" />
+                </svg>5</th>
+            </tr>
+          </thead>
+          <tbody id="ratingTableBody"><!-- filled by JS --></tbody>
+        </table>
+
+        <!-- Mobile pills -->
+        <div class="rating-mobile" id="ratingMobile"><!-- filled by JS --></div>
+
+        <div class="error-msg">Please rate all five services.</div>
+      </div>
+
+      <!-- Q3 Wildlife sightings -->
+      <div class="card" data-field="wildlifeSighting">
+        <h2>3. Wildlife Sightings <span class="req">*</span></h2>
+        <p class="sub">Did you spot wildlife (animals/birds) during the safari?</p>
+        <div class="options">
+          <label class="option"><input type="radio" name="wildlifeSighting" value="Yes, more than expected!" /><svg
+              class="icon" aria-hidden="true">
+              <use href="#i-binoculars" />
+            </svg> Yes, more than expected!</label>
+          <label class="option"><input type="radio" name="wildlifeSighting" value="Yes, I saw a few." /><svg
+              class="icon" aria-hidden="true">
+              <use href="#i-eye" />
+            </svg> Yes, I saw a few.</label>
+          <label class="option"><input type="radio" name="wildlifeSighting" value="No, I hardly saw any." /><svg
+              class="icon" aria-hidden="true">
+              <use href="#i-eye-off" />
+            </svg> No, I hardly saw any.</label>
+        </div>
+        <div class="error-msg">Please select an option.</div>
+      </div>
+
+      <!-- Q4 Detailed feedback -->
+      <div class="card">
+        <h2>4. Your Detailed Feedback</h2>
+        <p class="sub">Help us make the safari even better!</p>
+
+        <div class="field">
+          <label class="field-label" for="likedMost">What did you like the most about this safari?</label>
+          <textarea id="likedMost" name="likedMost" placeholder="Share what you enjoyed..." maxlength="1000"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="suggestions">Do you have any suggestions to help us improve our
+            services?</label>
+          <textarea id="suggestions" name="suggestions" placeholder="Your suggestions..." maxlength="1000"></textarea>
+        </div>
+
+        <div class="field" data-field="recommend">
+          <label class="field-label">Would you recommend this safari to your friends or family? <span
+              class="req">*</span></label>
+          <div class="options">
+            <label class="option"><input type="radio" name="recommend" value="Definitely!" /><svg class="icon"
+                aria-hidden="true">
+                <use href="#i-thumbs-up" />
+              </svg> Definitely!</label>
+            <label class="option"><input type="radio" name="recommend" value="Maybe / I'll consider it." /><svg
+                class="icon" aria-hidden="true">
+                <use href="#i-help" />
+              </svg> Maybe / I'll consider it.</label>
+            <label class="option"><input type="radio" name="recommend" value="No." /><svg class="icon"
+                aria-hidden="true">
+                <use href="#i-thumbs-down" />
+              </svg> No.</label>
+          </div>
+          <div class="error-msg">Please select an option.</div>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="comments">Additional Comments</label>
+          <textarea id="comments" name="comments"
+            placeholder="Please provide any further feedback or thoughts you would like to share with us."
+            maxlength="1000"></textarea>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="card submit-card">
+        <button type="submit" id="submitBtn"><svg class="icon" aria-hidden="true">
+            <use href="#i-leaf" />
+          </svg> Submit Feedback</button>
+      </div>
+
+    </form>
+
+    <footer><svg class="icon icon-heart" aria-hidden="true">
+        <use href="#i-heart" />
+      </svg> Thank you for choosing our Jungle Safari! <svg class="icon icon-heart" aria-hidden="true">
+        <use href="#i-heart" />
+      </svg></footer>
+  </div>
+
+  <script>
+    /* ============================================================
+       CONFIGURATION
+       Paste your deployed Google Apps Script Web App URL below
+       ============================================================ */
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzPzgI1e-H4SK0oFRjN77kI8qLzIld0m3Hh5ysJvjSnheML-N7HxmacUjJz-ORYiIXk/exec";
+
+    /* ---------- Build the ratings grid ---------- */
+    const SERVICES = [
+      { key: "bookingProcess", label: "Booking Process" },
+      { key: "vehicleCondition", label: "Vehicle Condition & Comfort" },
+      { key: "guideKnowledge", label: "Guide / Driver Knowledge & Behavior" },
+      { key: "safetyMeasures", label: "Safety Measures" },
+      { key: "cleanliness", label: "Cleanliness & Amenities" }
+    ];
+
+    const tbody = document.getElementById("ratingTableBody");
+    const mobileWrap = document.getElementById("ratingMobile");
+
+    SERVICES.forEach(s => {
+      // desktop row
+      let tr = `<tr><td>${s.label}</td>`;
+      for (let i = 1; i <= 5; i++) {
+        tr += `<td><input type="radio" name="${s.key}" value="${i}" aria-label="${s.label} ${i} star" /></td>`;
+      }
+      tbody.insertAdjacentHTML("beforeend", tr + "</tr>");
+
+      // mobile pills (same radio name — browser keeps only one checked group per name,
+      // so desktop table + mobile pills stay in sync automatically)
+      let pills = `<div class="rating-item"><div class="rating-name">${s.label}</div><div class="rating-pills">`;
+      for (let i = 1; i <= 5; i++) {
+        pills += `<label><input type="radio" name="${s.key}" value="${i}" />${i}</label>`;
+      }
+      mobileWrap.insertAdjacentHTML("beforeend", pills + "</div></div>");
+    });
+
+    /* ---------- Helpers ---------- */
+    const form = document.getElementById("safariForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const formAlert = document.getElementById("formAlert");
+
+    function radioValue(name) {
+      const el = form.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : "";
+    }
+
+    function setInvalid(fieldName, invalid) {
+      const wrap = form.querySelector(`[data-field="${fieldName}"]`);
+      if (wrap) wrap.classList.toggle("invalid", invalid);
+      return !invalid;
+    }
+
+    /* Clear error styling as soon as the user fixes the field */
+    form.addEventListener("input", e => {
+      const wrap = e.target.closest("[data-field]");
+      if (wrap) wrap.classList.remove("invalid");
+    });
+    form.addEventListener("change", e => {
+      const wrap = e.target.closest("[data-field]");
+      if (wrap) wrap.classList.remove("invalid");
+    });
+
+    /* ---------- Validation ---------- */
+    function validateForm() {
+      let ok = true;
+      let firstInvalid = null;
+
+      function check(fieldName, valid) {
+        setInvalid(fieldName, !valid);
+        if (!valid) {
+          ok = false;
+          if (!firstInvalid) firstInvalid = form.querySelector(`[data-field="${fieldName}"]`);
+        }
+      }
+
+      // Address (required)
+      check("address", form.address.value.trim().length >= 3);
+
+      // Phone: exactly 10 digits (ignoring spaces/dashes), optional +91 prefix
+      const rawPhone = form.phone.value.trim().replace(/[\s-]/g, "");
+      const phoneOk = /^(\+91)?[6-9]\d{9}$/.test(rawPhone) || /^\d{10}$/.test(rawPhone);
+      check("phone", phoneOk);
+
+      // Date & time: both required, date not in the future
+      const dateVal = form.safariDate.value;
+      const timeVal = form.safariTime.value;
+      let dtOk = Boolean(dateVal && timeVal);
+      if (dtOk) {
+        const today = new Date();
+        today.setHours(23, 59, 59, 999);
+        dtOk = new Date(dateVal + "T00:00") <= today;
+      }
+      check("safariDateTime", dtOk);
+
+      // Vehicle / guide (required)
+      check("vehicleGuide", form.vehicleGuide.value.trim().length >= 2);
+
+      // Radios
+      check("overallExperience", radioValue("overallExperience") !== "");
+      check("wildlifeSighting", radioValue("wildlifeSighting") !== "");
+      check("recommend", radioValue("recommend") !== "");
+
+      // All 5 service ratings
+      const allRated = SERVICES.every(s => radioValue(s.key) !== "");
+      check("ratings", allRated);
+
+      if (firstInvalid) {
+        firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      return ok;
+    }
+
+    /* ---------- Submit ---------- */
+    form.addEventListener("submit", async e => {
+      e.preventDefault();
+      formAlert.className = "";
+      formAlert.style.display = "none";
+
+      if (!validateForm()) return;
+
+      const ICON_ALERT = '<svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg> ';
+      const ICON_ERROR = '<svg class="icon" aria-hidden="true"><use href="#i-x-circle"/></svg> ';
+
+      if (SCRIPT_URL.startsWith("PASTE_")) {
+        formAlert.innerHTML = ICON_ALERT + "Setup incomplete: paste your Apps Script Web App URL into SCRIPT_URL in index.html.";
+        formAlert.className = "error";
+        return;
+      }
+
+      const data = new URLSearchParams({
+        visitorName: form.visitorName.value.trim(),
+        address: form.address.value.trim(),
+        phone: form.phone.value.trim(),
+        safariDate: form.safariDate.value,
+        safariTime: form.safariTime.value,
+        vehicleGuide: form.vehicleGuide.value.trim(),
+        overallExperience: radioValue("overallExperience"),
+        bookingProcess: radioValue("bookingProcess"),
+        vehicleCondition: radioValue("vehicleCondition"),
+        guideKnowledge: radioValue("guideKnowledge"),
+        safetyMeasures: radioValue("safetyMeasures"),
+        cleanliness: radioValue("cleanliness"),
+        wildlifeSighting: radioValue("wildlifeSighting"),
+        likedMost: form.likedMost.value.trim(),
+        suggestions: form.suggestions.value.trim(),
+        recommend: radioValue("recommend"),
+        comments: form.comments.value.trim()
+      });
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spinner"></span>Submitting...';
+
+      try {
+        // mode:"no-cors" lets the request reach Apps Script without CORS errors.
+        // The response is opaque, so reaching here without a network error = success.
+        await fetch(SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: data.toString()
+        });
+
+        form.style.display = "none";
+        document.getElementById("successCard").style.display = "block";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } catch (err) {
+        formAlert.innerHTML = ICON_ERROR + "Something went wrong while submitting. Please check your internet connection and try again.";
+        formAlert.className = "error";
+        formAlert.scrollIntoView({ behavior: "smooth", block: "center" });
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<svg class="icon" aria-hidden="true"><use href="#i-leaf"/></svg> Submit Feedback';
+      }
+    });
+
+    /* ---------- Reset for another response ---------- */
+    function resetForm() {
+      form.reset();
+      form.querySelectorAll(".invalid").forEach(el => el.classList.remove("invalid"));
+      document.getElementById("successCard").style.display = "none";
+      form.style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  </script>
+</body>
+
+</html>
