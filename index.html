@@ -72,6 +72,46 @@
       margin-right: 2px;
     }
 
+    /* ---------- Language switcher ---------- */
+    .lang-switch {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff;
+      border-radius: 50px;
+      padding: 6px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, .15);
+    }
+
+    .lang-switch .icon {
+      stroke: var(--green-mid);
+      margin: 0 4px 0 12px;
+    }
+
+    .lang-btn {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 10px 14px;
+      border-radius: 50px;
+      font-size: .95rem;
+      font-weight: 600;
+      color: var(--green-dark);
+      cursor: pointer;
+      font-family: inherit;
+      transition: all .15s ease;
+    }
+
+    .lang-btn:hover {
+      background: var(--green-pale);
+    }
+
+    .lang-btn.active {
+      background: var(--green);
+      color: #fff;
+    }
+
     /* ---------- Header ---------- */
     .header-card {
       background: #fff;
@@ -569,6 +609,11 @@
       <path
         d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17" />
     </symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" />
+      <line x1="2" y1="12" x2="22" y2="12" />
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+    </symbol>
     <symbol id="i-leaf" viewBox="0 0 24 24">
       <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
       <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
@@ -595,13 +640,23 @@
 
   <div class="container">
 
+    <!-- ================= LANGUAGE SWITCHER ================= -->
+    <div class="lang-switch" role="group" aria-label="Select language / भाषा चुनें / भाषा निवडा">
+      <svg class="icon" aria-hidden="true">
+        <use href="#i-globe" />
+      </svg>
+      <button type="button" class="lang-btn active" data-lang="en">English</button>
+      <button type="button" class="lang-btn" data-lang="hi">हिंदी</button>
+      <button type="button" class="lang-btn" data-lang="mr">मराठी</button>
+    </div>
+
     <!-- ================= HEADER ================= -->
     <div class="header-card">
       <img class="header-img" src="header.png" alt="Jungle Safari Feedback Form" onerror="this.style.display='none'" />
       <div class="header-text">
-        <p>Thank you for joining us! We would love to hear about your experience.
+        <p data-i18n="headerIntro">Thank you for joining us! We would love to hear about your experience.
           Please take a moment to fill out this short feedback form.</p>
-        <p class="required-note">* Indicates required question</p>
+        <p class="required-note" data-i18n="requiredNote">* Indicates required question</p>
       </div>
     </div>
 
@@ -610,15 +665,14 @@
       <div class="big"><svg class="icon" style="width:64px;height:64px;stroke:var(--green)" aria-hidden="true">
           <use href="#i-check-circle" />
         </svg></div>
-      <h2>Thank You for Your Feedback!</h2>
+      <h2 data-i18n="successTitle">Thank You for Your Feedback!</h2>
       <p><svg class="icon icon-heart" aria-hidden="true">
           <use href="#i-heart" />
-        </svg> Thank you for choosing our Jungle Safari!<br>
-        We hope you had a wonderful experience and wish you a great day! <svg class="icon icon-heart"
-          aria-hidden="true">
+        </svg> <span data-i18n="successMsg">Thank you for choosing our Jungle Safari! We hope you had a wonderful
+          experience and wish you a great day!</span> <svg class="icon icon-heart" aria-hidden="true">
           <use href="#i-heart" />
         </svg></p>
-      <button type="button" onclick="resetForm()">Submit Another Response</button>
+      <button type="button" onclick="resetForm()" data-i18n="submitAnother">Submit Another Response</button>
     </div>
 
     <!-- ================= FORM ================= -->
@@ -630,82 +684,88 @@
       <div class="card">
         <h2><svg class="icon" aria-hidden="true">
             <use href="#i-user" />
-          </svg> Visitor Details</h2>
-        <p class="sub">Tell us a little about yourself and your safari trip.</p>
+          </svg> <span data-i18n="visitorDetails">Visitor Details</span></h2>
+        <p class="sub" data-i18n="visitorDetailsSub">Tell us a little about yourself and your safari trip.</p>
 
         <div class="field">
-          <label class="field-label" for="visitorName">Visitor Name <span
-              style="color:#999;font-weight:400">(Optional)</span></label>
+          <label class="field-label" for="visitorName"><span data-i18n="visitorName">Visitor Name</span> <span
+              style="color:#999;font-weight:400" data-i18n="optional">(Optional)</span></label>
           <input type="text" id="visitorName" name="visitorName" placeholder="Enter your full name" maxlength="100"
-            autocomplete="name" />
+            autocomplete="name" data-i18n-placeholder="visitorNamePh" />
         </div>
 
         <div class="field" data-field="address">
-          <label class="field-label" for="address">Address <span class="req">*</span></label>
-          <textarea id="address" name="address" rows="2" placeholder="Enter your address" maxlength="300"></textarea>
-          <div class="error-msg">Please enter your address.</div>
+          <label class="field-label" for="address"><span data-i18n="address">Address</span> <span
+              class="req">*</span></label>
+          <textarea id="address" name="address" rows="2" placeholder="Enter your address" maxlength="300"
+            data-i18n-placeholder="addressPh"></textarea>
+          <div class="error-msg" data-i18n="addressErr">Please enter your address.</div>
         </div>
 
         <div class="field" data-field="phone">
-          <label class="field-label" for="phone">Phone / Mobile Number <span class="req">*</span></label>
+          <label class="field-label" for="phone"><span data-i18n="phone">Phone / Mobile Number</span> <span
+              class="req">*</span></label>
           <input type="tel" id="phone" name="phone" placeholder="e.g. 9876543210" inputmode="numeric" maxlength="15"
-            autocomplete="tel" />
-          <div class="error-msg">Please enter a valid 10-digit mobile number.</div>
+            autocomplete="tel" data-i18n-placeholder="phonePh" />
+          <div class="error-msg" data-i18n="phoneErr">Please enter a valid 10-digit mobile number.</div>
         </div>
 
         <div class="field" data-field="safariDateTime">
-          <label class="field-label">Safari Date &amp; Time <span class="req">*</span></label>
+          <label class="field-label"><span data-i18n="safariDateTime">Safari Date &amp; Time</span> <span
+              class="req">*</span></label>
           <div class="row-2">
             <input type="date" id="safariDate" name="safariDate" />
             <input type="time" id="safariTime" name="safariTime" />
           </div>
-          <div class="error-msg">Please select both the safari date and time (date cannot be in the future).</div>
+          <div class="error-msg" data-i18n="safariDateTimeErr">Please select both the safari date and time (date cannot
+            be in the future).</div>
         </div>
 
         <div class="field" data-field="vehicleGuide">
-          <label class="field-label" for="vehicleGuide">Vehicle Number / Guide's Name <span class="req">*</span></label>
+          <label class="field-label" for="vehicleGuide"><span data-i18n="vehicleGuide">Vehicle Number / Guide's
+              Name</span> <span class="req">*</span></label>
           <input type="text" id="vehicleGuide" name="vehicleGuide" placeholder="e.g. MH-31-AB-1234 / Ramesh"
-            maxlength="100" />
-          <div class="error-msg">Please enter the vehicle number or guide's name.</div>
+            maxlength="100" data-i18n-placeholder="vehicleGuidePh" />
+          <div class="error-msg" data-i18n="vehicleGuideErr">Please enter the vehicle number or guide's name.</div>
         </div>
       </div>
 
       <!-- Q1 Overall experience -->
       <div class="card" data-field="overallExperience">
-        <h2>1. Overall Safari Experience <span class="req">*</span></h2>
-        <p class="sub">How would you rate your overall jungle safari experience?</p>
+        <h2><span data-i18n="q1Title">1. Overall Safari Experience</span> <span class="req">*</span></h2>
+        <p class="sub" data-i18n="q1Sub">How would you rate your overall jungle safari experience?</p>
         <div class="options">
           <label class="option"><input type="radio" name="overallExperience" value="Excellent" /><svg class="icon"
               aria-hidden="true">
               <use href="#i-laugh" />
-            </svg> Excellent</label>
+            </svg> <span data-i18n="optExcellent">Excellent</span></label>
           <label class="option"><input type="radio" name="overallExperience" value="Good" /><svg class="icon"
               aria-hidden="true">
               <use href="#i-smile" />
-            </svg> Good</label>
+            </svg> <span data-i18n="optGood">Good</span></label>
           <label class="option"><input type="radio" name="overallExperience" value="Average" /><svg class="icon"
               aria-hidden="true">
               <use href="#i-meh" />
-            </svg> Average</label>
+            </svg> <span data-i18n="optAverage">Average</span></label>
           <label class="option"><input type="radio" name="overallExperience" value="Poor" /><svg class="icon"
               aria-hidden="true">
               <use href="#i-frown" />
-            </svg> Poor</label>
+            </svg> <span data-i18n="optPoor">Poor</span></label>
         </div>
-        <div class="error-msg">Please select an option.</div>
+        <div class="error-msg" data-i18n="selectErr">Please select an option.</div>
       </div>
 
       <!-- Q2 Rate our services -->
       <div class="card" data-field="ratings">
-        <h2>2. Rate Our Services <span class="req">*</span></h2>
-        <p class="sub">Please rate the following services.</p>
-        <p class="scale-hint">1 = Very Poor &nbsp;·&nbsp; 5 = Excellent</p>
+        <h2><span data-i18n="q2Title">2. Rate Our Services</span> <span class="req">*</span></h2>
+        <p class="sub" data-i18n="q2Sub">Please rate the following services.</p>
+        <p class="scale-hint" data-i18n="scaleHint">1 = Very Poor &nbsp;·&nbsp; 5 = Excellent</p>
 
         <!-- Desktop table -->
         <table class="rating-table rating-desktop">
           <thead>
             <tr>
-              <th>Service</th>
+              <th data-i18n="serviceCol">Service</th>
               <th><svg class="icon" aria-hidden="true">
                   <use href="#i-star" />
                 </svg>1</th>
@@ -729,71 +789,74 @@
         <!-- Mobile pills -->
         <div class="rating-mobile" id="ratingMobile"><!-- filled by JS --></div>
 
-        <div class="error-msg">Please rate all five services.</div>
+        <div class="error-msg" data-i18n="ratingsErr">Please rate all five services.</div>
       </div>
 
       <!-- Q3 Wildlife sightings -->
       <div class="card" data-field="wildlifeSighting">
-        <h2>3. Wildlife Sightings <span class="req">*</span></h2>
-        <p class="sub">Did you spot wildlife (animals/birds) during the safari?</p>
+        <h2><span data-i18n="q3Title">3. Wildlife Sightings</span> <span class="req">*</span></h2>
+        <p class="sub" data-i18n="q3Sub">Did you spot wildlife (animals/birds) during the safari?</p>
         <div class="options">
           <label class="option"><input type="radio" name="wildlifeSighting" value="Yes, more than expected!" /><svg
               class="icon" aria-hidden="true">
               <use href="#i-binoculars" />
-            </svg> Yes, more than expected!</label>
+            </svg> <span data-i18n="wl1">Yes, more than expected!</span></label>
           <label class="option"><input type="radio" name="wildlifeSighting" value="Yes, I saw a few." /><svg
               class="icon" aria-hidden="true">
               <use href="#i-eye" />
-            </svg> Yes, I saw a few.</label>
+            </svg> <span data-i18n="wl2">Yes, I saw a few.</span></label>
           <label class="option"><input type="radio" name="wildlifeSighting" value="No, I hardly saw any." /><svg
               class="icon" aria-hidden="true">
               <use href="#i-eye-off" />
-            </svg> No, I hardly saw any.</label>
+            </svg> <span data-i18n="wl3">No, I hardly saw any.</span></label>
         </div>
-        <div class="error-msg">Please select an option.</div>
+        <div class="error-msg" data-i18n="selectErr">Please select an option.</div>
       </div>
 
       <!-- Q4 Detailed feedback -->
       <div class="card">
-        <h2>4. Your Detailed Feedback</h2>
-        <p class="sub">Help us make the safari even better!</p>
+        <h2 data-i18n="q4Title">4. Your Detailed Feedback</h2>
+        <p class="sub" data-i18n="q4Sub">Help us make the safari even better!</p>
 
         <div class="field">
-          <label class="field-label" for="likedMost">What did you like the most about this safari?</label>
-          <textarea id="likedMost" name="likedMost" placeholder="Share what you enjoyed..." maxlength="1000"></textarea>
+          <label class="field-label" for="likedMost" data-i18n="likedMost">What did you like the most about this
+            safari?</label>
+          <textarea id="likedMost" name="likedMost" placeholder="Share what you enjoyed..." maxlength="1000"
+            data-i18n-placeholder="likedMostPh"></textarea>
         </div>
 
         <div class="field">
-          <label class="field-label" for="suggestions">Do you have any suggestions to help us improve our
-            services?</label>
-          <textarea id="suggestions" name="suggestions" placeholder="Your suggestions..." maxlength="1000"></textarea>
+          <label class="field-label" for="suggestions" data-i18n="suggestions">Do you have any suggestions to help us
+            improve our services?</label>
+          <textarea id="suggestions" name="suggestions" placeholder="Your suggestions..." maxlength="1000"
+            data-i18n-placeholder="suggestionsPh"></textarea>
         </div>
 
         <div class="field" data-field="recommend">
-          <label class="field-label">Would you recommend this safari to your friends or family? <span
-              class="req">*</span></label>
+          <label class="field-label"><span data-i18n="recommend">Would you recommend this safari to your friends or
+              family?</span> <span class="req">*</span></label>
           <div class="options">
             <label class="option"><input type="radio" name="recommend" value="Definitely!" /><svg class="icon"
                 aria-hidden="true">
                 <use href="#i-thumbs-up" />
-              </svg> Definitely!</label>
+              </svg> <span data-i18n="rec1">Definitely!</span></label>
             <label class="option"><input type="radio" name="recommend" value="Maybe / I'll consider it." /><svg
                 class="icon" aria-hidden="true">
                 <use href="#i-help" />
-              </svg> Maybe / I'll consider it.</label>
+              </svg> <span data-i18n="rec2">Maybe / I'll consider it.</span></label>
             <label class="option"><input type="radio" name="recommend" value="No." /><svg class="icon"
                 aria-hidden="true">
                 <use href="#i-thumbs-down" />
-              </svg> No.</label>
+              </svg> <span data-i18n="rec3">No.</span></label>
           </div>
-          <div class="error-msg">Please select an option.</div>
+          <div class="error-msg" data-i18n="selectErr">Please select an option.</div>
         </div>
 
         <div class="field">
-          <label class="field-label" for="comments">Additional Comments</label>
+          <label class="field-label" for="comments" data-i18n="comments">Additional Comments</label>
           <textarea id="comments" name="comments"
             placeholder="Please provide any further feedback or thoughts you would like to share with us."
-            maxlength="1000"></textarea>
+            maxlength="1000" data-i18n-placeholder="commentsPh"></textarea>
         </div>
       </div>
 
@@ -801,14 +864,15 @@
       <div class="card submit-card">
         <button type="submit" id="submitBtn"><svg class="icon" aria-hidden="true">
             <use href="#i-leaf" />
-          </svg> Submit Feedback</button>
+          </svg> <span data-i18n="submitBtn">Submit Feedback</span></button>
       </div>
 
     </form>
 
     <footer><svg class="icon icon-heart" aria-hidden="true">
         <use href="#i-heart" />
-      </svg> Thank you for choosing our Jungle Safari! <svg class="icon icon-heart" aria-hidden="true">
+      </svg> <span data-i18n="footerMsg">Thank you for choosing our Jungle Safari!</span> <svg class="icon icon-heart"
+        aria-hidden="true">
         <use href="#i-heart" />
       </svg></footer>
   </div>
@@ -834,7 +898,7 @@
 
     SERVICES.forEach(s => {
       // desktop row
-      let tr = `<tr><td>${s.label}</td>`;
+      let tr = `<tr><td><span data-i18n="svc_${s.key}">${s.label}</span></td>`;
       for (let i = 1; i <= 5; i++) {
         tr += `<td><input type="radio" name="${s.key}" value="${i}" aria-label="${s.label} ${i} star" /></td>`;
       }
@@ -842,7 +906,7 @@
 
       // mobile pills (same radio name — browser keeps only one checked group per name,
       // so desktop table + mobile pills stay in sync automatically)
-      let pills = `<div class="rating-item"><div class="rating-name">${s.label}</div><div class="rating-pills">`;
+      let pills = `<div class="rating-item"><div class="rating-name" data-i18n="svc_${s.key}">${s.label}</div><div class="rating-pills">`;
       for (let i = 1; i <= 5; i++) {
         pills += `<label><input type="radio" name="${s.key}" value="${i}" />${i}</label>`;
       }
@@ -963,7 +1027,7 @@
       });
 
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span class="spinner"></span>Submitting...';
+      submitBtn.innerHTML = '<span class="spinner"></span>' + t("submitting", "Submitting...");
 
       try {
         // mode:"no-cors" lets the request reach Apps Script without CORS errors.
@@ -979,14 +1043,55 @@
         document.getElementById("successCard").style.display = "block";
         window.scrollTo({ top: 0, behavior: "smooth" });
       } catch (err) {
-        formAlert.innerHTML = ICON_ERROR + "Something went wrong while submitting. Please check your internet connection and try again.";
+        formAlert.innerHTML = ICON_ERROR + t("errSubmit", "Something went wrong while submitting. Please check your internet connection and try again.");
         formAlert.className = "error";
         formAlert.scrollIntoView({ behavior: "smooth", block: "center" });
       } finally {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = '<svg class="icon" aria-hidden="true"><use href="#i-leaf"/></svg> Submit Feedback';
+        submitBtn.innerHTML = '<svg class="icon" aria-hidden="true"><use href="#i-leaf"/></svg> <span data-i18n="submitBtn">' + t("submitBtn", "Submit Feedback") + '</span>';
       }
     });
+
+    /* ============================================================
+       i18n — translations live in translations.json (en / hi / mr).
+       Only the UI text changes; submitted values stay in English
+       so the Google Sheet data remains consistent.
+       ============================================================ */
+    let I18N = {};
+    let currentLang = localStorage.getItem("safariLang") || "en";
+
+    function t(key, fallback) {
+      const pack = I18N[currentLang] || {};
+      return pack[key] || (I18N.en && I18N.en[key]) || fallback || key;
+    }
+
+    function applyLang(lang) {
+      if (!I18N[lang]) return;
+      currentLang = lang;
+      localStorage.setItem("safariLang", lang);
+      document.documentElement.lang = lang;
+
+      document.querySelectorAll(".lang-btn").forEach(b =>
+        b.classList.toggle("active", b.dataset.lang === lang));
+
+      const pack = I18N[lang];
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.dataset.i18n;
+        if (pack[key] !== undefined) el.textContent = pack[key];
+      });
+      document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+        const key = el.dataset.i18nPlaceholder;
+        if (pack[key] !== undefined) el.placeholder = pack[key];
+      });
+    }
+
+    document.querySelectorAll(".lang-btn").forEach(btn =>
+      btn.addEventListener("click", () => applyLang(btn.dataset.lang)));
+
+    fetch("translations.json")
+      .then(r => r.json())
+      .then(json => { I18N = json; applyLang(currentLang); })
+      .catch(() => { /* translations unavailable — form stays in English */ });
 
     /* ---------- Reset for another response ---------- */
     function resetForm() {
