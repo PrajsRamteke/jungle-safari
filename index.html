@@ -694,6 +694,21 @@
             autocomplete="name" data-i18n-placeholder="visitorNamePh" />
         </div>
 
+        <div class="row-2">
+          <div class="field">
+            <label class="field-label" for="occupation"><span data-i18n="occupation">Occupation</span> <span
+                style="color:#999;font-weight:400" data-i18n="optional">(Optional)</span></label>
+            <input type="text" id="occupation" name="occupation" placeholder="e.g. Teacher, Farmer, Business"
+              maxlength="100" data-i18n-placeholder="occupationPh" />
+          </div>
+          <div class="field">
+            <label class="field-label" for="nationality"><span data-i18n="nationality">Nationality</span> <span
+                style="color:#999;font-weight:400" data-i18n="optional">(Optional)</span></label>
+            <input type="text" id="nationality" name="nationality" placeholder="e.g. Indian" maxlength="100"
+              data-i18n-placeholder="nationalityPh" />
+          </div>
+        </div>
+
         <div class="field" data-field="address">
           <label class="field-label" for="address"><span data-i18n="address">Address</span> <span
               class="req">*</span></label>
@@ -1008,6 +1023,8 @@
 
       const data = new URLSearchParams({
         visitorName: form.visitorName.value.trim(),
+        occupation: form.occupation.value.trim(),
+        nationality: form.nationality.value.trim(),
         address: form.address.value.trim(),
         phone: form.phone.value.trim(),
         safariDate: form.safariDate.value,

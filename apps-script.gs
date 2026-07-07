@@ -22,6 +22,8 @@ var SHEET_NAME = "Feedback Responses";
 var HEADERS = [
   "Timestamp",
   "Visitor Name",
+  "Occupation",
+  "Nationality",
   "Address",
   "Phone / Mobile",
   "Safari Date",
@@ -83,6 +85,8 @@ function doPost(e) {
     sheet.appendRow([
       new Date(),
       clean_(p.visitorName) || "Anonymous",
+      clean_(p.occupation),
+      clean_(p.nationality),
       clean_(p.address),
       "'" + phone, // leading apostrophe keeps leading zeros / + intact in Sheets
       clean_(p.safariDate),
